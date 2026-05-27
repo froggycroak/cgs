@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务不可用 | Digital Urban Renew</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body data-page="unavailable">
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Digital Urban Renew</h1>
+            <p class="tagline">城市更新所 | 数字化工作专班 | 工具导航</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="unavailable-panel" aria-labelledby="unavailable-title">
+                <p class="unavailable-code" id="error-code">HTTP 503</p>
+                <h2 class="unavailable-title" id="unavailable-title">该页面内容尚未开放</h2>
+                <p class="unavailable-message">尽情期待……</p>
+                <p class="unavailable-hint">服务维护或过载，请稍后再试。</p>
+                <div class="unavailable-actions">
+                    <button type="button" class="btn btn-black" onclick="closePage()">关闭此页</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 ArchiFrog | <a href="dev/index.html">Developer</a></p>
+        </div>
+    </footer>
+
+    <script src="close-page.js"></script>
+</body>
+
+</html>

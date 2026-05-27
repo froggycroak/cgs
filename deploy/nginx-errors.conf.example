@@ -1,0 +1,9 @@
+# 将 UDAppGate 目录作为站点根目录，或把 root 指向实际路径后启用：
+#
+# root /var/www/UDAppGate;
+# error_page 502 /502.html;
+# error_page 503 /503.html;
+# error_page 504 /504.html;
+# location = /502.html { internal; }
+# location = /503.html { internal; }
+# location = /504.html { internal; }
