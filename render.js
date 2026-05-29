@@ -31,20 +31,8 @@ function renderDevUrl(url) {
     return `<a href="${url}" class="dev-link" target="_blank" rel="noopener">${url}</a>`;
 }
 
-function renderIndex(data) {
-    const main = document.getElementById('main-content');
-    main.innerHTML = data.sections
-        .filter((section) => section.type === 'tools')
-        .map((section) => {
-            if (section.type === 'tools') {
-                return `
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">${section.title}</h2>
-                <div class="tools-grid">
-                    ${section.tools
-                        .map(
-                            (tool) => `
+function renderStandardCard(tool) {
+    return `
                     <a href="${tool.url}" class="tool-card" target="_blank" rel="noopener">
                         <div class="tool-icon">
                             ${renderIcon(tool.icon, tool.abbr, 'tool-icon-img')}
@@ -53,20 +41,50 @@ function renderIndex(data) {
                             <h3 class="tool-abbr">${tool.abbr}</h3>
                             <p class="tool-name">${tool.name}</p>
                         </div>
-                    </a>`
-                        )
-                        .join('')}
+                    </a>`;
+}
+
+function renderCompactCard(tool) {
+    return `
+                    <a href="${tool.url}" class="tool-card tool-card--compact" target="_blank" rel="noopener">
+                        <div class="tool-icon">
+                            ${renderIcon(tool.icon, tool.name, 'tool-icon-img')}
+                        </div>
+                        <p class="tool-name tool-name--compact">${tool.name}</p>
+                    </a>`;
+}
+
+function renderToolSection(section) {
+    const isCompact = section.layout === 'compact';
+    const gridClass = isCompact ? 'tools-grid tools-grid--compact' : 'tools-grid';
+    const cards = section.tools
+        .map((tool) => (isCompact ? renderCompactCard(tool) : renderStandardCard(tool)))
+        .join('');
+
+    return `
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">${section.title}</h2>
+                <div class="${gridClass}">
+                    ${cards}
                 </div>
             </div>
         </section>`;
-            }
-            return '';
-        })
+}
+
+function renderIndex(data) {
+    const main = document.getElementById('main-content');
+    main.innerHTML = data.sections
+        .filter((section) => section.type === 'tools')
+        .map(renderToolSection)
         .join('');
 }
 
 function renderDevTable(section) {
-  if (section.type === 'tools') {
+    if (section.type !== 'tools') {
+        return '';
+    }
+
     return `
                 <div class="dev-section">
                     <h3>${section.title}板块</h3>
@@ -94,35 +112,6 @@ function renderDevTable(section) {
                         </tbody>
                     </table>
                 </div>`;
-  }
-  if (section.type === 'external') {
-    return `
-                <div class="dev-section">
-                    <h3>${section.title}</h3>
-                    <table class="dev-table">
-                        <thead>
-                            <tr>
-                                <th>名称</th>
-                                <th>访问地址</th>
-                                <th>说明</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${section.links
-                                .map(
-                                    (link) => `
-                            <tr>
-                                <td>${link.name}</td>
-                                <td>${renderDevUrl(link.url)}</td>
-                                <td>${link.description}</td>
-                            </tr>`
-                                )
-                                .join('')}
-                        </tbody>
-                    </table>
-                </div>`;
-  }
-  return '';
 }
 
 function renderDev(data) {

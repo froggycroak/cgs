@@ -4,7 +4,7 @@ window.TOOLS_DATA = {
   "sections": [
     {
       "id": "urban",
-      "title": "城市研究 Urban Reseach",
+      "title": "城市研究 Urban Research",
       "type": "tools",
       "tools": [
         {
@@ -17,11 +17,11 @@ window.TOOLS_DATA = {
         },
         {
           "abbr": "UrbanCheck",
-          "name": "公服数据展示与城市区位分析",
-          "url": "unavailable.html",
+          "name": "公服设施体检与城市区位分析",
+          "url": "http://10.253.6.206:5180/",
           "icon": "images/map (1).svg",
           "status": "pending",
-          "statusText": "尚未开放"
+          "statusText": "需内网访问"
         },
         {
           "abbr": "RegionShot",
@@ -58,18 +58,25 @@ window.TOOLS_DATA = {
     },
     {
       "id": "external",
-      "title": "外部资源",
-      "type": "external",
-      "links": [
+      "title": "外部资源 External Resources",
+      "type": "tools",
+      "layout": "compact",
+      "tools": [
         {
+          "abbr": "OpenAI",
           "name": "OpenAI",
           "url": "https://openai.com",
-          "description": "人工智能研究公司"
+          "icon": "images/openai-copy.svg",
+          "status": "active",
+          "statusText": "正常访问"
         },
         {
+          "abbr": "Aliyun",
           "name": "阿里云控制台",
           "url": "https://home.console.aliyun.com",
-          "description": "云计算管理平台"
+          "icon": "images/MAP.svg",
+          "status": "active",
+          "statusText": "正常访问"
         }
       ]
     }
