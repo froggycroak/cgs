@@ -1,4 +1,26 @@
-/* 基础样式 */
+/* 字体：Inter（拉丁）+ Noto Sans SC（中文），见各页 <head> 引入 */
+
+/* ── App Store 设计变量 ── */
+:root {
+    --store-bg: #ffffff;
+    --store-surface: #ffffff;
+    --store-text: #1d1d1f;
+    --store-text-secondary: #6e6e73;
+    --store-text-tertiary: #86868b;
+    --store-border: rgba(0, 0, 0, 0.08);
+    --store-accent: #0071e3;
+    --store-accent-hover: #0077ed;
+    --store-radius-lg: 20px;
+    --store-radius-md: 14px;
+    --store-radius-sm: 12px;
+    --store-shadow-hover: 0 8px 28px rgba(0, 0, 0, 0.12);
+    --store-transition: 0.28s cubic-bezier(0.25, 0.1, 0.25, 1);
+    --store-max-width: 1080px;
+    /* 字体：Inter + Noto Sans SC */
+    --font-display: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+    --font-text: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,346 +30,511 @@
 html {
     height: 100%;
     scrollbar-gutter: stable;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f8f9fa;
+    font-family: var(--font-text);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.47059;
+    letter-spacing: -0.022em;
+    color: var(--store-text);
+    background-color: var(--store-bg);
     min-height: 100%;
     display: flex;
     flex-direction: column;
+    font-feature-settings: 'kern' 1;
+    font-kerning: normal;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: var(--store-max-width);
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
-/* 头部样式 */
+/* ── 顶栏：毛玻璃导航 ── */
 .header {
-    background: #000;
-    padding: 2rem 0;
-    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 251, 253, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--store-border);
+    padding: 14px 0;
 }
 
-.logo {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: #fff;
-}
-
-.tagline {
-    font-size: 1.1rem;
-    color: #a0aec0;
-}
-
-/* 主要内容区域 */
-.main {
-    flex: 1;
-    padding: 3rem 0;
-}
-
-.section {
-    margin-bottom: 3rem;
-}
-
-.section-title {
-    font-size: 1.8rem;
-    color: #2d3748;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #e2e8f0;
-}
-
-/* 工具网格：9 列基准，与城市研究/建筑创作/外部资源列对齐 */
-.tools-grid {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: 1.5rem;
-}
-
-.tool-card {
-    grid-column: span 3;
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    min-height: 108px;
-    text-decoration: none;
-    color: inherit;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
+.header-inner {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1rem;
 }
 
-.tool-card--compact {
+.header-brand {
+    min-width: 0;
+}
+
+.logo {
+    font-family: var(--font-display);
+    font-size: 1.3125rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--store-text);
+    line-height: 1.15;
+    text-rendering: optimizeLegibility;
+}
+
+.tagline {
+    font-family: var(--font-text);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--store-text-tertiary);
+    letter-spacing: -0.01em;
+    line-height: 1.33337;
+    margin-top: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.header-nav a {
+    font-family: var(--font-text);
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--store-accent);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 980px;
+    transition: background var(--store-transition);
+}
+
+.header-nav a:hover {
+    background: rgba(0, 113, 227, 0.08);
+}
+
+/* ── 入场动画 ── */
+@keyframes store-enter {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes store-enter-header {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body[data-page="index"] .header {
+    animation: store-enter-header 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+body[data-page="index"] .footer {
+    animation: store-enter 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+}
+
+.store-enter {
+    animation: store-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--enter-delay, 0s);
+}
+
+/* ── 主内容 ── */
+.main {
+    flex: 1;
+    padding: 2rem 0 3.5rem;
+}
+
+.section {
+    margin-bottom: 2.5rem;
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 400;
+    letter-spacing: -0.032em;
+    line-height: 1.2;
+    color: var(--store-text);
+    margin-bottom: 1rem;
+    text-align: center;
+    text-rendering: optimizeLegibility;
+}
+
+.store-panel {
+    padding: 0.25rem 0;
+}
+
+/* ── 工具网格：上图标 + abbr + name，6 列 ── */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem 1rem;
+}
+
+.tool-card {
     grid-column: span 1;
+    background: transparent;
+    border-radius: var(--store-radius-sm);
+    padding: 0.75rem 0.375rem;
+    min-height: 112px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1.5rem 0.5rem;
-    min-height: 108px;
+    gap: 0.5rem;
 }
 
-.tool-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
+/* ── 图标：App Store 圆角方块 ── */
 .tool-icon {
-    width: 60px;
-    height: 60px;
+    width: 68px;
+    height: 68px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.tool-icon--squircle {
+    position: relative;
+    border-radius: 14px;
+    background: transparent;
+    overflow: visible;
+    transition: transform 0.45s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.tool-icon--squircle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, #fafafa 0%, #ededf0 100%);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.06),
+        inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+    z-index: 0;
+}
+
+.tool-card:hover .tool-icon--squircle {
+    transform: translateY(-10px);
+}
+
 .tool-icon img,
 .tool-icon-img {
-    width: 100%;
-    height: 100%;
+    position: relative;
+    z-index: 1;
+    width: 72%;
+    height: 72%;
     object-fit: contain;
-    padding: 4px;
+    padding: 0;
 }
 
 .tool-info {
-    flex: 1;
+    width: 100%;
+    text-align: center;
+    padding: 0 2px;
 }
 
 .tool-abbr {
-    font-size: 1.3rem;
+    font-family: var(--font-text);
+    font-size: 0.8125rem;
     font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em;
+    color: var(--store-text);
+    line-height: 1.23077;
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .tool-name {
-    font-size: 0.95rem;
-    color: #000;
-    font-weight: 700;
-}
-
-.tool-name--compact {
-    font-size: 0.8rem;
-    line-height: 1.3;
+    font-family: var(--font-text);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: -0.006em;
+    color: var(--store-text-tertiary);
     text-align: center;
+    line-height: 1.36364;
     word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .dev-name-zh {
-    color: #000;
-    font-weight: 700;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--store-text);
 }
 
-/* 开发者页面样式 */
+/* ── 开发者页 ── */
 .dev-section {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background: var(--store-surface);
+    border-radius: var(--store-radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--store-border);
+    box-shadow: none;
+}
+
+.dev-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.024em;
+    line-height: 1.2;
+    color: var(--store-text);
+    margin-bottom: 0.25rem;
 }
 
 .dev-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    letter-spacing: -0.01em;
 }
 
 .dev-table th,
 .dev-table td {
-    padding: 0.75rem;
+    padding: 0.75rem 0.5rem;
     text-align: left;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--store-border);
 }
 
 .dev-table th {
-    background: #f7fafc;
+    background: transparent;
     font-weight: 600;
-    color: #2d3748;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--store-text-tertiary);
+}
+
+.dev-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.dev-table tbody tr:hover {
+    background: rgba(0, 0, 0, 0.02);
 }
 
 .dev-table .dev-link {
-    color: #4a5568;
+    color: var(--store-accent);
     word-break: break-all;
+    text-decoration: none;
 }
 
 .dev-table .dev-link:hover {
-    color: #667eea;
+    text-decoration: underline;
+}
+
+.status-active,
+.status-warning,
+.status-pending {
+    display: inline-block;
+    padding: 0.2rem 0.625rem;
+    border-radius: 980px;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0;
 }
 
 .status-active {
-    color: #38a169;
-    background: #c6f6d5;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
+    color: #1a7f37;
+    background: rgba(52, 199, 89, 0.14);
 }
 
 .status-warning {
-    color: #d69e2e;
-    background: #fefcbf;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
+    color: #b25000;
+    background: rgba(255, 149, 0, 0.14);
 }
 
 .status-pending {
-    color: #718096;
-    background: #edf2f7;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
+    color: var(--store-text-secondary);
+    background: rgba(0, 0, 0, 0.06);
 }
 
 .dev-actions {
     display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
 }
 
+/* ── 按钮 ── */
 .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
+    padding: 0.625rem 1.375rem;
+    border-radius: 980px;
     text-decoration: none;
     font-weight: 500;
     font-family: inherit;
-    font-size: inherit;
+    font-size: 0.875rem;
+    letter-spacing: -0.01em;
     cursor: pointer;
     border: none;
-    transition: all 0.3s ease;
+    transition: all var(--store-transition);
 }
 
 .btn-primary {
-    background: #667eea;
-    color: white;
+    background: var(--store-accent);
+    color: #fff;
 }
 
 .btn-primary:hover {
-    background: #5a67d8;
+    background: var(--store-accent-hover);
 }
 
 .btn-secondary {
-    background: #e2e8f0;
-    color: #2d3748;
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--store-text);
 }
 
 .btn-secondary:hover {
-    background: #cbd5e0;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .btn-black {
-    background: #000;
+    background: var(--store-text);
     color: #fff;
 }
 
 .btn-black:hover {
-    background: #2d3748;
+    background: #424245;
 }
 
-/* 页脚样式 */
+/* ── 页脚 ── */
 .footer {
     margin-top: auto;
-    padding: 1.5rem 0;
+    padding: 1.25rem 0 1.75rem;
     text-align: center;
-    color: #718096;
-    font-size: 0.9rem;
+    color: var(--store-text-tertiary);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: -0.006em;
+    line-height: 1.33337;
+    border-top: 1px solid var(--store-border);
+    background: rgba(251, 251, 253, 0.5);
 }
 
 .footer a {
-    color: #4a5568;
+    color: var(--store-accent);
     text-decoration: none;
 }
 
 .footer a:hover {
-    color: #2d3748;
     text-decoration: underline;
 }
 
 .load-error {
-    color: #c53030;
+    color: #bf4800;
     text-align: center;
     padding: 2rem;
+    font-size: 0.875rem;
 }
 
-/* 暂未开放 / 错误页 */
+/* ── 暂未开放 / 错误页 ── */
 .unavailable-panel {
-    background: white;
-    border-radius: 12px;
+    background: var(--store-surface);
+    border-radius: var(--store-radius-lg);
     padding: 3rem 2rem;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    max-width: 560px;
+    box-shadow: none;
+    border: 1px solid var(--store-border);
+    max-width: 480px;
     margin: 0 auto;
 }
 
 .unavailable-code {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: #718096;
-    letter-spacing: 0.05em;
-    margin-bottom: 1rem;
+    color: var(--store-text-tertiary);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
 }
 
 .unavailable-title {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #000;
-    margin-bottom: 1rem;
-}
-
-.unavailable-message {
-    font-size: 1.15rem;
-    color: #2d3748;
+    letter-spacing: -0.028em;
+    color: var(--store-text);
     margin-bottom: 0.75rem;
 }
 
+.unavailable-message {
+    font-size: 1.0625rem;
+    color: var(--store-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
 .unavailable-hint {
-    font-size: 0.95rem;
-    color: #718096;
+    font-size: 0.875rem;
+    color: var(--store-text-tertiary);
     margin-bottom: 2rem;
 }
 
 .unavailable-actions {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
-/* 响应式设计 */
+/* ── 响应式 ── */
 @media (max-width: 1024px) {
-    .tool-card {
-        grid-column: span 3;
-    }
-
-    .tool-card--compact {
-        grid-column: span 3;
+    .tools-grid {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
 @media (max-width: 768px) {
-    .tools-grid {
-        grid-template-columns: 1fr;
+    .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    .tool-card,
-    .tool-card--compact {
-        grid-column: span 1;
+    .tagline {
+        white-space: normal;
+    }
+
+    .tools-grid {
+        grid-template-columns: repeat(4, 1fr);
     }
 
     .dev-table {
         display: block;
         overflow-x: auto;
     }
+}
 
-    .logo {
-        font-size: 2rem;
+@media (prefers-reduced-motion: reduce) {
+
+    body[data-page="index"] .header,
+    body[data-page="index"] .footer,
+    .store-enter {
+        animation: none;
+    }
+
+    .tool-card:hover .tool-icon--squircle {
+        transform: none;
     }
 }
